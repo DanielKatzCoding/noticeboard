@@ -21,9 +21,9 @@
     {% endfor %}
 </div>
 
-<p><a href="{% url 'noticeboard_list' %}">Back to list</a></p>
+<p><a href="{% url 'noticeboard:noticeboard_list' %}">Back to list</a></p>
 
-<form method="post" action="{% url 'create_comment' notice.pk %}" class="comment-form">
+<form method="post" action="{% url 'noticeboard:create_comment' notice.pk %}" class="comment-form">
     {% csrf_token %}
     <fieldset>
         <legend>Add a Comment</legend>

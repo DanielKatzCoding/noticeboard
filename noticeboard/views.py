@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import generic
 from .models import Noticeboard, Comment, User
 from noticeboard import models
@@ -31,4 +31,17 @@ class NoticeboardDetailView(generic.DetailView):
         context['comments'] = Comment.objects.filter(noticeboard_id=self.object.pk)
         
         return context
+    
+def create_comment(request, pk):
+    if request.method == 'POST':
+        content: str = request.POST.get('content')
+        author: str = request.POST.get('author').capitalize()
+        
+        notice = Noticeboard.objects.filter(pk=pk).first()
+        user = User.objects.filter(username=author).first()
+        if not user:
+            user = User.objects.create(username=author)
+            
+        Comment.objects.create(noticeboard=notice, content=content, author=user)
+    return redirect('noticeboard:noticeboard_detail', pk=pk)
     
