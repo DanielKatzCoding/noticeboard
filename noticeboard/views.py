@@ -35,7 +35,7 @@ class NoticeboardDetailView(generic.DetailView):
 def create_comment(request, pk):
     if request.method == 'POST':
         content: str = request.POST.get('content')
-        author: str = request.POST.get('author').capitalize()
+        author: str = request.POST.get('author').lower().capitalize()
         
         notice = Noticeboard.objects.filter(pk=pk).first()
         user = User.objects.filter(username=author).first()

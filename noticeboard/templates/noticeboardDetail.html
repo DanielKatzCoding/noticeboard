@@ -5,8 +5,9 @@
 {% block content %}
 <article class="notice-container">
     <div class="inner-padding">
-        <h2>{{ notice.title }}</h2>
-        <p class="meta">{{ notice.created_at }}</p>
+        <h2>{{ notice.title }}</h2>        
+        <span class="meta">{{ notice.created_at }}</span>
+        <span class="meta">Posted by {{ notice.author }}</span>
         <p>{{ notice.content|linebreaks }}</p>
     </div>
 </article>
@@ -15,7 +16,8 @@
     <div class="comment-container">
         <div class="inner-padding">
             <p>{{ comment.content }}</p>
-            <p class="meta">{{ comment.created_at }}</p>
+            <span class="meta">{{ comment.created_at }}</span>
+            <span class="meta">Posted by {{ comment.author }}</span>
         </div>
     </div>
     {% endfor %}
