@@ -10,6 +10,8 @@
         <li>            
             <a href="{% url 'noticeboard_detail' notice.pk %}">{{ notice.title }}</a>
             <br>
+            <span class="meta">({{ notice.comments_count }}) comments</span>
+            <br>
             <span class="meta">{{ notice.created_at }}</span>
         </li>
     {% empty %}

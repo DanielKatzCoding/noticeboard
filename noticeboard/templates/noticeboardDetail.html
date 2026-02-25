@@ -5,8 +5,8 @@
 {% block content %}
 <article class="notice-detail">
     <h2>{{ notice.title }}</h2>
-    <p class="meta">{{ notice.created }}</p>
-    <div class="body">{{ notice.body|linebreaks }}</div>
-    <p><a href="{% url 'notice_list' %}">Back to list</a></p>
+    <p class="meta">{{ notice.created_at }}</p>
+    <div class="body">{{ notice.content|linebreaks }}</div>
+    <p><a href="{% url 'noticeboard_list' %}">Back to list</a></p>
 </article>
 {% endblock %}
