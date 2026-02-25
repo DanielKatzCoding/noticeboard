@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ notice.title }}{% endblock %}
+
+{% block content %}
+<article class="notice-detail">
+    <h2>{{ notice.title }}</h2>
+    <p class="meta">{{ notice.created }}</p>
+    <div class="body">{{ notice.body|linebreaks }}</div>
+    <p><a href="{% url 'notice_list' %}">Back to list</a></p>
+</article>
+{% endblock %}

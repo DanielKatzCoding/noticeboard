@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Notices{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Notices</h1>
+    <ul class="notice-list">
+    {% for notice in notices %}
+        <li>            
+            <a href="{% url 'noticeboard_detail' notice.pk %}">{{ notice.title }}</a>
+            <br>
+            <span class="meta">{{ notice.created_at }}</span>
+        </li>
+    {% empty %}
+        <li>No notices yet.</li>
+    {% endfor %}
+    </ul>
+</section>
+{% endblock %}
