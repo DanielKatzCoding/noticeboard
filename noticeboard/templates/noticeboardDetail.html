@@ -3,10 +3,22 @@
 {% block title %}{{ notice.title }}{% endblock %}
 
 {% block content %}
-<article class="notice-detail">
+<article class="notice-container">
     <h2>{{ notice.title }}</h2>
     <p class="meta">{{ notice.created_at }}</p>
     <div class="body">{{ notice.content|linebreaks }}</div>
-    <p><a href="{% url 'noticeboard_list' %}">Back to list</a></p>
 </article>
+<ul class="notice-list">
+{% for comment in comments %}
+<li>
+    <div class="comment-container">
+        <p>{{ comment.content }}</p>
+        <p class="meta">{{ comment.created_at }}</p>
+    </div>
+</li>
+{% endfor %}
+</ul>
+
+<p><a href="{% url 'noticeboard_list' %}">Back to list</a></p>
+
 {% endblock %}

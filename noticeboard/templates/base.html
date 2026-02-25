@@ -9,12 +9,10 @@
 </head>
 <body>
     <header class="site-header">
-        <div class="">
-            <h1><a href="{% url 'noticeboard_list' %}">Noticeboard</a></h1>
-        </div>
+        <h1><a href="{% url 'noticeboard_list' %}">Noticeboard</a></h1>
     </header>
 
-    <main class="container">
+    <main class="content-container">
         {% block content %}{% endblock %}
     </main>
 

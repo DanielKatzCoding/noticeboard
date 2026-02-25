@@ -24,3 +24,11 @@ class NoticeboardDetailView(generic.DetailView):
     model = Noticeboard
     template_name = 'noticeboardDetail.html'
     context_object_name = 'notice'
+    
+    def get_context_data(self, **kwargs):
+        """Add comments count for each notice id to the context"""
+        context = super().get_context_data(**kwargs)
+        context['comments'] = Comment.objects.filter(noticeboard_id=self.object.pk)
+        
+        return context
+    
