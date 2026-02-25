@@ -4,7 +4,10 @@
 
 {% block content %}
 <section>
-    <h1>Notices</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Notices</h1>
+        <button style="display: flex; min-height: none;" onclick="location.href='{% url 'noticeboard:create_notice' %}'">Create</button>
+    </div>
     <ul class="notice-list">
     {% for notice in notices %}
         <li>            

@@ -45,3 +45,17 @@ def create_comment(request, pk):
         Comment.objects.create(noticeboard=notice, content=content, author=user)
     return redirect('noticeboard:noticeboard_detail', pk=pk)
     
+def create_notice(request):
+    if request.method == 'POST':
+        content: str = request.POST.get('content')
+        title: str = request.POST.get('title')
+        author: str = request.POST.get('author').lower().capitalize()
+        
+        user = User.objects.filter(username=author).first()
+        if not user:
+            user = User.objects.create(username=author)
+            
+        Noticeboard.objects.create(title=title, content=content, author=user)
+        return redirect('noticeboard:noticeboard_list')
+    return render(request, 'noticeForm.html')
+    
