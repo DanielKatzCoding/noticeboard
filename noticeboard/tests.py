@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import User, Noticeboard, Comment
+
+from .models import Comment, Noticeboard, User
+
 
 class NoticeboardListViewTest(TestCase):
     def setUp(self):
