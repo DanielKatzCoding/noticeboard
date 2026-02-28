@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Notices{% endblock %}
+
+{% block content %}
+<section>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Notices</h1>
+        <button style="display: flex; min-height: none;" onclick="location.href='{% url 'noticeboard:create_notice' %}'">Create</button>
+    </div>
+    <ul class="notice-list">
+    {% for notice in notices %}
+        <li>            
+            <a href="{% url 'noticeboard:noticeboard_detail' notice.pk %}">{{ notice.title }}</a>
+            <br>
+            <span class="meta">({{ notice.comments_count }}) comments</span>
+            <br>
+            <span class="meta">{{ notice.created_at }}</span>
+        </li>
+    {% empty %}
+        <li>No notices yet.</li>
+    {% endfor %}
+    </ul>
+</section>
+{% endblock %}

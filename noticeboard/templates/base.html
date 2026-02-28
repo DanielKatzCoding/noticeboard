@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Noticeboard{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'noticeboard/css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <h1><a href="{% url 'noticeboard:noticeboard_list' %}">Noticeboard</a></h1>
+    </header>
+
+    <main class="content-container">
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Create Notice{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'noticeboard:create_notice' %}" class="comment-form">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Add a Notice</legend>
+        <input name="author" type="text" placeholder="Your name" required>
+        <input name="title" type="text" placeholder="Notice title" required>
+        <textarea name="content" rows="4" cols="50" placeholder="Add a notice..." required></textarea>
+        <button type="submit">Submit Notice</button>
+    </fieldset>
+</form>
+<p><a href="{% url 'noticeboard:noticeboard_list' %}">Back to list</a></p>
+{% endblock %}

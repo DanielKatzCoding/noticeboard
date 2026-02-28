@@ -1,0 +1,48 @@
+services:
+  # Database service shared by dev and prod
+  db:
+    image: postgres:15-alpine
+    env_file: .env.db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Development service with hot-reload and dev tools
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app:cached
+    ports:
+      - "8000:8000"
+    env_file: .env.dev
+    depends_on:
+      - db
+
+  # Production service with optimized multi-stage build
+  web-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8000:8000"
+    env_file: .env.prod
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "/bin/sh", "-c", "curl -f http://localhost:8000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: >
+      sh -c "
+        sleep 10 &&
+        /app/.venv/bin/python manage.py migrate --no-input &&
+        /app/.venv/bin/python manage.py collectstatic --no-input &&
+        uvicorn core.asgi:application --host 0.0.0.0 --port 8000
+      "
+
+volumes:
+  postgres_data:
