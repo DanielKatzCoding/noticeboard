@@ -12,19 +12,23 @@ A minimal Django-based noticeboard application. This repository includes both de
 
 ## Quick start (Development)
 
-1. Copy environment file:
+1. Copy environment files:
 
 ```bash
 cp .env.example .env.dev
+cp .env.example .env.prod
+cp .env.example .env.db
 ```
 
-2. Start services (development):
+2. Update the copied files with your preferred values (especially `SECRET_KEY`).
+
+3. Start services (development):
 
 ```bash
 docker-compose up --build web-dev db
 ```
 
-3. Visit: http://localhost:8000
+4. Visit: http://localhost:8001
 
 Notes:
 - The development service mounts the project directory as a volume, so code changes reload immediately.
@@ -34,7 +38,8 @@ Notes:
 
 This project provides a production-optimized image. It's intended as an example; adjust for your hosting platform.
 
-1. Ensure you have a populated `.env.prod` (see `.env.example`).
+1. Ensure you have populated `.env.prod` and `.env.db` files (see `.env.example`).
+
 2. Build and start production service:
 
 ```bash
@@ -42,6 +47,29 @@ docker-compose up --build web-prod db
 ```
 
 3. Production server is exposed on `8000` (mapped to container's `8000`) by default in `docker-compose.yml`.
+   Visit: http://localhost:8000
+
+## Environment Files
+
+This project now uses separate environment files for different services:
+
+- `.env.db` - Database configuration (used by the `db` service)
+- `.env.dev` - Development configuration (used by the `web-dev` service)
+- `.env.prod` - Production configuration (used by the `web-prod` service)
+- `.env.example` - Template file to copy from when creating your environment files
+
+To set up your environment files, copy `.env.example` to each of the required files and customize as needed:
+
+```bash
+cp .env.example .env.db
+cp .env.example .env.dev
+cp .env.example .env.prod
+```
+
+Then edit each file to set your preferred values, especially ensuring that:
+- Database credentials match across all files
+- `SECRET_KEY` is changed to a secure random value
+- `DEBUG` is set to `False` in production
 
 ## Common Docker commands
 
@@ -65,12 +93,15 @@ docker compose run --rm web-prod python manage.py migrate
 
 ## Environment variables
 
-Copy `.env.example` to `.env.{type}` and update values for your environment. Do NOT commit secrets to source control.
+Each service uses its own environment file:
+- `db` service uses `.env.db`
+- `web-dev` service uses `.env.dev`
+- `web-prod` service uses `.env.prod`
 
 Important variables (see `.env.example` for full list):
 
 - `DEBUG` — `True` or `False`. Should be `False` in production.
-- `SECRET_KEY` — Django secret key.
+- `SECRET_KEY` — Django secret key (must be unique and secret).
 - `ALLOWED_HOSTS` — Comma-separated allowed hostnames.
 - `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` — Postgres credentials.
 - `DB_HOST`, `DB_PORT` — Database host and port (compose uses service name `db`).
@@ -89,6 +120,12 @@ Run Django tests inside a container or locally if you prefer:
 docker compose run --rm web-dev python manage.py test
 ```
 
+Or run tests locally (requires setting up local environment):
+
+```bash
+python manage.py test
+```
+
 ## Static files
 
 - The production image runs `collectstatic` at container start.
@@ -102,7 +139,7 @@ docker compose run --rm web-dev python manage.py test
 docker compose logs web-prod
 ```
 
-- Ensure `.env` values are correct and Postgres credentials match.
+- Ensure `.env` values are correct and Postgres credentials match across all environment files.
 
 - If you mount a local virtualenv or Python binary into the container, remove the mount — it can conflict with container Python.
 

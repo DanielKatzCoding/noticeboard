@@ -21,6 +21,8 @@ env/
 env.bak/
 venv.bak/
 
+.claude/
+
 # Django stuff:
 # local settings
 local_settings.py
