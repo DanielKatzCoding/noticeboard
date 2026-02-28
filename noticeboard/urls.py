@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import NoticeboardListView, NoticeboardDetailView, create_comment, create_notice
+
+from .views import (
+    NoticeboardDetailView,
+    NoticeboardListView,
+    create_comment,
+    create_notice,
+)
 
 app_name = 'noticeboard'
 urlpatterns = [

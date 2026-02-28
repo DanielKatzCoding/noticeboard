@@ -8,3 +8,31 @@ dependencies = [
     "django>=6.0.2",
     "psycopg2>=2.9.11",
 ]
+
+[tool.ruff]
+# Target Python version
+target-version = "py310"
+
+# Set the maximum line length (standard is 88, like Black)
+line-length = 88
+
+[tool.ruff.lint]
+# 1. Enable specific rule sets
+# E/W: Pycodestyle (standard errors/warnings)
+# F: Pyflakes (logic errors)
+# I: Isort (import sorting)
+# B: Flake8-bugbear (common design issues)
+# UP: Pyupgrade (modernize syntax)
+# N: Pep8-naming (naming conventions)
+select = ["E", "W", "F", "I", "B", "UP", "N"]
+
+# 2. Ignore specific rules if they are too noisy
+ignore = [
+    "E501", # Line too long (already handled by formatter)
+    "B008", # Do not perform function calls in argument defaults
+]
+
+# 3. Configure the "isort" behavior
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
