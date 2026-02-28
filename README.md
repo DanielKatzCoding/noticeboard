@@ -15,7 +15,7 @@ A minimal Django-based noticeboard application. This repository includes both de
 1. Copy environment file:
 
 ```bash
-cp .env.example .env
+cp .env.example .env.dev
 ```
 
 2. Start services (development):
@@ -34,14 +34,14 @@ Notes:
 
 This project provides a production-optimized image. It's intended as an example; adjust for your hosting platform.
 
-1. Ensure you have a populated `.env` (see `.env.example`).
+1. Ensure you have a populated `.env.prod` (see `.env.example`).
 2. Build and start production service:
 
 ```bash
 docker-compose up --build web-prod db
 ```
 
-3. Production server is exposed on `8001` (mapped to container's `8000`) by default in `docker-compose.yml`.
+3. Production server is exposed on `8000` (mapped to container's `8000`) by default in `docker-compose.yml`.
 
 ## Common Docker commands
 
@@ -63,15 +63,9 @@ docker-compose down
 docker compose run --rm web-prod python manage.py migrate
 ```
 
-- Collect static files:
-
-```bash
-docker compose run --rm web-prod python manage.py collectstatic --noinput
-```
-
 ## Environment variables
 
-Copy `.env.example` to `.env` and update values for your environment. Do NOT commit secrets to source control.
+Copy `.env.example` to `.env.{type}` and update values for your environment. Do NOT commit secrets to source control.
 
 Important variables (see `.env.example` for full list):
 
@@ -87,10 +81,6 @@ This project uses PostgreSQL. The `db` service in `docker-compose.yml` uses `pos
 
 If you see a warning like `database "noticeboard_db" has no actual collation version, but a version was recorded` during startup, it is usually harmless and related to locale differences between the image and the created DB cluster. It does not affect functionality.
 
-## ASGI lifespan warning
-
-If your server logs `ASGI 'lifespan' protocol appears unsupported.`, we've added a small wrapper in `core/asgi.py` to handle the lifespan protocol gracefully.
-
 ## Running tests
 
 Run Django tests inside a container or locally if you prefer:
@@ -103,12 +93,6 @@ docker compose run --rm web-dev python manage.py test
 
 - The production image runs `collectstatic` at container start.
 - Static files are stored in `/app/staticfiles` inside the container and served by the Uvicorn process with `whitenoise` in the production image.
-
-## Developing and contributing
-
-- Create a branch per feature/bug: `git checkout -b feat/your-feature`
-- Keep commits small and focused.
-- Run tests before opening a PR.
 
 ## Troubleshooting
 
@@ -127,7 +111,3 @@ docker compose logs web-prod
 - `core/asgi.py` — ASGI entrypoint and lifespan wrapper.
 - `core/settings.py` — Project settings.
 - `noticeboard/models.py` — Example models and app logic.
-
-## License
-
-This project does not include a license by default. Add an appropriate `LICENSE` file if you plan to open-source it.
